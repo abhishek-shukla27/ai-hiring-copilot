@@ -13,3 +13,5 @@ app.include_router(scoring.router, prefix="/score", tags=["Scoring"])
 @app.get("/")
 def root():
     return {"status": "AI Hiring Copilot is running ✅"}
+
+app.include_router(ingest.router,prefix="/ingest",tags=["Ingestion"])

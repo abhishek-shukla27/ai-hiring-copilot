@@ -1,18 +1,21 @@
 import re
 
-COMMON_SKILLS=[
-    "python","java","sql","machine learning","deep learning",
-    "npl","fastapi","django","flask",
-    "aws","docker","kubernetes",
-    "react","typescript"
+COMMON_SKILLS = [
+    "python", "java", "sql", "machine learning", "deep learning",
+    "nlp", "fastapi", "django", "flask",
+    "aws", "docker", "kubernetes",
+    "react", "typescript"
 ]
 
-async def parser_jd(file):
-    text=(await file.read()).decode("utf-8",errors="ignore").lower()
+async def parse_jd(file):
+    text = (await file.read()).decode("utf-8", errors="ignore").lower()
 
-    found_skills=[]
+    found_skills = []
     for skill in COMMON_SKILLS:
-        if re.search("rf\b{skill}\b",text):
+        if re.search(rf"\b{skill}\b", text):
             found_skills.append(skill)
 
-    return text,found_skills
+    return {
+        "raw_text": text.strip(),
+        "skills": found_skills
+    }
