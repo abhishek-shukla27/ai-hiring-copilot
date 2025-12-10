@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from app.services.matching.skill_matcher import match_skills
 
 resume = ["python", "sql", "aws", "fastapi"]
