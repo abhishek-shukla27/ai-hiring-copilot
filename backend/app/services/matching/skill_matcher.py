@@ -1,17 +1,18 @@
+from typing import List,Dict
 
-def match_skills(resume_skills: list, jd_skills: list):
-    resume_set = set(resume_skills)
-    jd_set = set(jd_skills)
+def normalize_skill(s:str)->str:
+    return s.strip().lower()
 
-    matched = list(resume_set & jd_set)
-    missing = list(jd_set - resume_set)
+def match_skills(resume_skills: List[str],jd_skills: List[str])->Dict:
+    rs = {normalize_skill(x) for x in resume_skills if x}
+    js = [normalize_skill(x) for x in jd_skills if x]
 
-    score = 0
-    if jd_skills:
-        score = round((len(matched) / len(jd_skills)) * 100, 2)
+    matched = [s for s in js if s in rs]
+    missing = [s for s in js if s not in rs]
 
     return {
-        "match_score": score,
-        "matched_skills": matched,
-        "missing_skills": missing
+        "matched": matched,
+        "missing": missing,
+        "match_count": len(matched),
+        "jd_skill_count": len(js)
     }
