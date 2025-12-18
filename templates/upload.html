@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Upload Resume</h2>
+
+    <form id="uploadForm">
+        <input type="text" name="candidate_id" placeholder="Candidate ID" required>
+        <input type="text" name="name" placeholder="Candidate Name">
+        <input type="file" name="file" required>
+        <input type="text" name="extra_skills" placeholder="Extra skills (comma separated)">
+        <button type="submit">Upload</button>
+    </form>
+
+    <p id="result"></p>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
