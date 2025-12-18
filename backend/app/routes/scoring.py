@@ -34,11 +34,7 @@ def extract_text_from_pdf(file_bytes: bytes)->str:
             pages.append(text)
     return "\n".join(pages)
 
-def extract_text_from_pdf(file_bytes)-> str:
-    bio = io.BytesIO(file_bytes)
-    doc = docx.Document(bio)
-    paragraphs = [p.text for p in doc.paragraphs if p.text]
-    return "\n".join(paragraphs)
+
 
 def clean_text(text: str) -> str:
     # Remove emails
@@ -241,11 +237,10 @@ async def upload_resume(
         elif ext=="txt":
             parsed_text = file_bytes.decode("utf-8", errors="ignore")
         else:
-
-            try:
-                parsed_text=file_bytes.decode("utf-8",errors="ignore")
-            except:
-                parsed_text=str(file_bytes)
+            raise HTTPException(
+            status_code=400,
+            detail="Unsupported file type. Please upload PDF, DOCX, or TXT."
+        )
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to parse uploaded file: {e}")
@@ -257,7 +252,7 @@ async def upload_resume(
 
     email = extract_email(parsed_text)
     phone = extract_phone(parsed_text)
-    detected_skills=extra_skills(parsed_text)
+    detected_skills=extract_skills(parsed_text)
 
     if extra_skills:
         user_skills = [s.strip() for s in extra_skills.split(",") if s.strip()]
